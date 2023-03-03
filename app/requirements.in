@@ -1,0 +1,15 @@
+Django
+djangorestframework
+python-decouple
+psycopg2-binary
+dj-database-url
+gunicorn
+djangorestframework-simplejwt
+requests
+django-cors-headers
+validate-docbr
+celery
+redis
+django-rest-passwordreset
+django-anymail[mailjet]
+whitenoise

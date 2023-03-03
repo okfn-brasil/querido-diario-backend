@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+.venv
+.env
+.postgres.env
+celerybeat-schedule
+.devcontainer
+.idea
+static/*
+media/*

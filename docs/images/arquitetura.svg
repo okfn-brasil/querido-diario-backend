@@ -1,0 +1,81 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 586 283" width="586" height="283">
+	<title>arc-svg</title>
+	<style>
+		tspan { white-space:pre }
+		.s0 { fill: #f4d7d7 }
+		.s1 { fill: #ffccaa }
+		.s2 { fill: #cccccc }
+		.t3 { font-size: 11px;fill: #000000;font-family: "sans" }
+		.s4 { fill: #666666 }
+	</style>
+	<g id="layer1">
+		<path id="circle21554" class="s0" d="m72.3 242.1c-13.5 0-24.4-10.9-24.4-24.5 0-13.5 10.9-24.5 24.4-24.5 13.6 0 24.5 11 24.5 24.5 0 13.6-10.9 24.5-24.5 24.5z"/>
+		<path id="circle21552" class="s0" d="m67.7 192.7c-24.8 0-44.8-20.1-44.8-44.8 0-24.8 20-44.8 44.8-44.8 24.8 0 44.8 20 44.8 44.8 0 24.7-20 44.8-44.8 44.8z"/>
+		<path id="rect12665" class="s1" d="m251 111.1h146.7v158.4h-146.7z"/>
+		<path id="rect12637" class="s2" d="m249.9 27.1h96.3v42.5h-96.3z"/>
+		<g id="text3181">
+			<text id="tspan3179" style="transform: matrix(1,0,0,1,278.021,44.779)" >
+				<tspan x="0" y="0" class="t3">DJANGO
+</tspan>
+			</text>
+			<text id="tspan3183" style="transform: matrix(1,0,0,1,309.771,58.008)" >
+				<tspan x="0" y="0" class="t3">WEB
+</tspan>
+			</text>
+		</g>
+		<path id="rect12639" class="s2" d="m275.4 156.6h96.3v42.5h-96.3z"/>
+		<g id="text6711">
+			<text id="tspan6709" style="transform: matrix(1,0,0,1,300.076,178.099)" >
+				<tspan x="0" y="0" class="t3">DJANGO
+</tspan>
+			</text>
+			<text id="tspan6713" style="transform: matrix(1,0,0,1,319.826,191.329)" >
+				<tspan x="0" y="0" class="t3">BEAT
+</tspan>
+			</text>
+		</g>
+		<path id="rect12641" class="s2" d="m276.4 217.8h96.4v42.5h-96.4z"/>
+		<g id="text7629">
+			<text id="tspan7627" style="transform: matrix(1,0,0,1,299.8,235.064)" >
+				<tspan x="0" y="0" class="t3">DJANGO
+</tspan>
+			</text>
+			<text id="tspan7631" style="transform: matrix(1,0,0,1,319.55,248.293)" >
+				<tspan x="0" y="0" class="t3">WORKER
+</tspan>
+			</text>
+		</g>
+		<path id="rect12531" class="s2" d="m465.9 27.7h96.3v42.5h-96.3z"/>
+		<text id="tspan9847" style="transform: matrix(1,0,0,1,480.676,52.236)" >
+			<tspan x="0" y="0" class="t3">POSTGRESQL
+</tspan>
+		</text>
+		<path id="rect12635" class="s2" d="m508.3 208.6h61.9v42.6h-61.9z"/>
+		<text id="tspan11303" style="transform: matrix(1,0,0,1,524.226,232.113)" >
+			<tspan x="0" y="0" class="t3">REDIS
+</tspan>
+		</text>
+		<text id="tspan15717" style="transform: matrix(1,0,0,1,279.479,135.983)" >
+			<tspan x="0" y="0" class="t3">DJANGO CELERY
+</tspan>
+		</text>
+		<path id="path16058" class="s4" d="m378.6 53.1l69.7 1.3v-6.2l6.1 8.7-6.2 9.1v-6.3l-69.7-0.4z"/>
+		<path id="path16060" class="s4" d="m416.2 166.8l45.8-52.6-4.8-3.9 10.6 0.9 3 10.6-4.8-4-45.1 53z"/>
+		<path id="path16062" class="s4" d="m454.3 35.3l-69.7 1.3 0.1-6.2-6.1 8.6 6.1 9.2 0.1-6.3 69.6-0.5z"/>
+		<path id="path16064" class="s4" d="m463.3 86.9l-45.8 52.6 4.8 4-10.6-0.9-3.1-10.6 4.9 4 45.1-53z"/>
+		<path id="path16066" class="s4" d="m414.2 237.8l69.8 1.3-0.1-6.2 6.1 8.7-6.2 9.1v-6.3l-69.7-0.5z"/>
+		<path id="path16068" class="s4" d="m490 220l-69.8 1.3 0.1-6.2-6.1 8.6 6.1 9.2 0.1-6.3 69.6-0.5z"/>
+		<text id="tspan20500" style="transform: matrix(1,0,0,1,31.757,148.899)" >
+			<tspan x="0" y="0" class="t3">querido-diario
+</tspan>
+		</text>
+		<text id="tspan20834" style="transform: matrix(1,0,0,1,59.966,220.297)" >
+			<tspan x="0" y="0" class="t3">ibge
+</tspan>
+		</text>
+		<path id="path21558" class="s4" d="m127.1 175.3l108.4 1.2-0.1-6.2 9.5 8.7-9.6 9.2-0.1-6.4-108.2-0.4z"/>
+		<path id="path21560" class="s4" d="m235.3 164.2l-108.4 1.3 0.1-6.2-9.5 8.6 9.6 9.2 0.1-6.3 108.2-0.5z"/>
+		<path id="path21562" class="s4" d="m140.7 125.8l97.9-41.5-2.6-5.7 12 4.3-4.9 12.1-2.6-5.7-97.4 42.2z"/>
+		<path id="path21564" class="s4" d="m233.4 73.1l-96.8 43.9-2.4-5.8-5 11.7 12.2 4.6-2.4-5.8 97-43.1z"/>
+	</g>
+</svg>
