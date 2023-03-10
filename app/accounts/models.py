@@ -50,11 +50,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     email = models.EmailField(unique=True)
     alert_email = models.EmailField(null=True, blank=True)
-    full_name = models.CharField(max_length=60)
-    city = models.CharField(max_length=50)
+    full_name = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
     state = models.CharField(max_length=2)
     gender = models.CharField(max_length=2)
-    sector = models.CharField(max_length=10)
+    sector = models.CharField(max_length=100)
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,
