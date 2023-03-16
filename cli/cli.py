@@ -9,10 +9,6 @@ def cli():
 
 
 @cli.command()
-@click.option(
-    "-p", "--postgres-port", default="5432", help="Set exposed Postgres port."
-)
-@click.option("-r", "--redis-port", default="6378", help="Set exposed Redis port.")
 @click.option("-d", "--django-port", default="8000", help="Set exposed Django port.")
 @click.option(
     "--workdir", default="/opt/app", help="Set app workdir (same as Dockerfile)."
@@ -32,8 +28,6 @@ def cli():
 @click.option("--migrate", is_flag=True, help="Also execute pending migrations.")
 @click.option("--force-recreate", is_flag=True, help="Rebuild entire architecture.")
 def setup(
-    postgres_port,
-    redis_port,
     django_port,
     pod_name,
     workdir,
@@ -60,7 +54,7 @@ def setup(
         f"podman build --format docker --tag {image_namespace}/{pod_name}:{image_tag} -f {APP_DIR}/Dockerfile {APP_DIR}"
     )
     run_command(
-        f"podman pod create {replace_flag} --publish {django_port}:8000 --publish {redis_port}:6378 --publish {postgres_port}:5432 --name {pod_name}"
+        f"podman pod create {replace_flag} --publish {django_port}:8000 --name {pod_name}"
     )
 
     run_command(
