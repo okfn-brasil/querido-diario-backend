@@ -59,7 +59,7 @@ class SingleAlertTask:
 
     def get_alert_url(self):
         base_url = settings.FRONT_BASE_URL
-        url = f"{base_url}/educacao/busca?sort_by=relevance"
+        url = f"{base_url}/educacao/busca?sort_by=relevance&pre_tags=<b>&post_tags=</b>"
         url += f"&scraped_since={self.scraped_since}&scraped_until={self.scraped_until}"
 
         if self.alert.query_string:
