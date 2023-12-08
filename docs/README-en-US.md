@@ -27,7 +27,7 @@ Thank you for considering contributing to Querido Diário! :tada:
 
 You can find how to do it at [CONTRIBUTING-en-US.md](/docs/CONTRIBUTING-en-US.md)!
 
-Also, check the [Querido Diário documentation](https://docs.queridodiario.ok.org.br/pt/latest/index.html) to help you.
+Also, check the [Querido Diário documentation](https://docs.queridodiario.ok.org.br/en/latest/) to help you.
 
 # Thanks
 The application was initially developed along with people from the software studio [Jurema](https://jurema.la/).
