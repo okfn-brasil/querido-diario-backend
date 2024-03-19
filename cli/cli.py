@@ -64,14 +64,14 @@ def setup(
         f"podman run -d --rm -ti --name {pod_name}-redis --pod {pod_name} docker.io/redis:latest --port 6378"
     )
     run_command(
-        f"podman run --rm -ti --name {pod_name}-django --pod {pod_name} --volume {APP_DIR}:{workdir}:rw {image_namespace}/{pod_name}:{image_tag} wait-for-it --timeout=30 localhost:5432"
+        f"podman run --replace --rm -ti --name {pod_name}-django --pod {pod_name} --volume {APP_DIR}:{workdir}:rw {image_namespace}/{pod_name}:{image_tag} wait-for-it --timeout=30 localhost:5432"
     )
     run_command(
-        f"podman run --rm -ti --name {pod_name}-django --pod {pod_name} --volume {APP_DIR}:{workdir}:rw {image_namespace}/{pod_name}:{image_tag} wait-for-it --timeout=30 localhost:6378"
+        f"podman run --replace --rm -ti --name {pod_name}-django --pod {pod_name} --volume {APP_DIR}:{workdir}:rw {image_namespace}/{pod_name}:{image_tag} wait-for-it --timeout=30 localhost:6378"
     )
 
     run_command(
-        f"podman run -d -ti --restart always --name {pod_name}-django --pod {pod_name} --volume {APP_DIR}:{workdir}:rw --volume {pod_name}-web-static-volume:{workdir}/static --env-file {APP_DIR}/.env {image_namespace}/{pod_name}:{image_tag} gunicorn config.wsgi:application -w 2 -b :8000 --reload"
+        f"podman run --replace -d -ti --restart always --name {pod_name}-django --pod {pod_name} --volume {APP_DIR}:{workdir}:rw --volume {pod_name}-web-static-volume:{workdir}/static --env-file {APP_DIR}/.env {image_namespace}/{pod_name}:{image_tag} gunicorn config.wsgi:application -w 2 -b :8000 --reload"
     )
     run_command(
         f"podman run -d -ti --restart always --name {pod_name}-celery-beat --pod {pod_name} --volume {APP_DIR}:{workdir}:rw {image_namespace}/{pod_name}:{image_tag} celery -A config beat -l INFO"

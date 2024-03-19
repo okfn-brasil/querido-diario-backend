@@ -15,7 +15,7 @@ class QueridoDiario(QueridoDiarioABC):
     def cnpj_info(self, cnpj: str) -> dict:
         """get querido diario cnpj info"""
 
-        url = f"{self.api_url}/api/company/info/{cnpj}"
+        url = f"{self.api_url}/company/info/{cnpj}"
         response = requests.get(url)
         if response.status_code != 200:
             raise NotFound("CNPJ não encontrado!")
@@ -25,7 +25,7 @@ class QueridoDiario(QueridoDiarioABC):
 
     def cnpj_list_partners(self, cnpj: str) -> dict:
         """get cnpj partners list"""
-        url = f"{self.api_url}/api/company/partners/{cnpj}"
+        url = f"{self.api_url}/company/partners/{cnpj}"
         response = requests.get(url)
         if response.status_code != 200:
             raise NotFound("CNPJ não encontrado!")
@@ -36,7 +36,7 @@ class QueridoDiario(QueridoDiarioABC):
     def gazettes(self, filters: GazetteFilters) -> GazettesResult:
         """get cnpj partners list"""
 
-        url = f"{self.api_url}/api/gazettes/by_theme/{self.theme}"
+        url = f"{self.api_url}/gazettes/by_theme/{self.theme}"
         response = requests.get(url, params=filters.json())
 
         if response.status_code == 404:
@@ -46,7 +46,7 @@ class QueridoDiario(QueridoDiarioABC):
         return GazettesResult.from_json(data)
 
     def entities(self) -> List[str]:
-        url = f"{self.api_url}/api/gazettes/by_theme/entities/{self.theme}"
+        url = f"{self.api_url}/gazettes/by_theme/entities/{self.theme}"
         response = requests.get(url)
 
         if response.status_code == 404:
@@ -69,7 +69,7 @@ class QueridoDiario(QueridoDiarioABC):
         return entities_string_list
 
     def subthemes(self) -> List[str]:
-        url = f"{self.api_url}/api/gazettes/by_theme/subthemes/{self.theme}"
+        url = f"{self.api_url}/gazettes/by_theme/subthemes/{self.theme}"
         response = requests.get(url)
 
         if response.status_code == 404:
