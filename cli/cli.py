@@ -27,6 +27,11 @@ def cli():
 @click.option("--makemigrations", is_flag=True, help="Also make migrations.")
 @click.option("--migrate", is_flag=True, help="Also execute pending migrations.")
 @click.option("--force-recreate", is_flag=True, help="Rebuild entire architecture.")
+@click.option(
+    "--live-arch-pod",
+    is_flag=True,
+    help="Assumes that a pod already exists with other services running (such as Postgres).",
+)
 def setup(
     django_port,
     pod_name,
@@ -38,6 +43,7 @@ def setup(
     makemigrations,
     migrate,
     force_recreate,
+    live_arch_pod,
 ):
     "Sets up containers and installs tools for developing (temporary command that does everything)."
 
@@ -53,13 +59,15 @@ def setup(
     run_command(
         f"podman build --format docker --tag {image_namespace}/{pod_name}:{image_tag} -f {APP_DIR}/Dockerfile {APP_DIR}"
     )
-    run_command(
-        f"podman pod create {replace_flag} --publish {django_port}:8000 --name {pod_name}"
-    )
 
-    run_command(
-        f"podman run -d --rm -ti --name {pod_name}-postgres --pod {pod_name} --volume {pod_name}-postgres-volume:/var/lib/postgresql/data/ --env-file {APP_DIR}/.postgres.env docker.io/postgres:latest -p 5432"
-    )
+    if not live_arch_pod:
+        run_command(
+            f"podman pod create {replace_flag} --publish {django_port}:8000 --name {pod_name}"
+        )
+        run_command(
+            f"podman run -d --rm -ti --name {pod_name}-postgres --pod {pod_name} --volume {pod_name}-postgres-volume:/var/lib/postgresql/data/ --env-file {APP_DIR}/.postgres.env docker.io/postgres:latest -p 5432"
+        )
+
     run_command(
         f"podman run -d --rm -ti --name {pod_name}-redis --pod {pod_name} docker.io/redis:latest --port 6378"
     )
@@ -71,7 +79,7 @@ def setup(
     )
 
     run_command(
-        f"podman run --replace -d -ti --restart always --name {pod_name}-django --pod {pod_name} --volume {APP_DIR}:{workdir}:rw --volume {pod_name}-web-static-volume:{workdir}/static --env-file {APP_DIR}/.env {image_namespace}/{pod_name}:{image_tag} gunicorn config.wsgi:application -w 2 -b :8000 --reload"
+        f"podman run --replace -d -ti --restart always --name {pod_name}-django --pod {pod_name} --volume {APP_DIR}:{workdir}:rw --volume {pod_name}-web-static-volume:{workdir}/static --env-file {APP_DIR}/.env {image_namespace}/{pod_name}:{image_tag} gunicorn config.wsgi:application -w 2 -b :8000 --log-level debug --reload"
     )
     run_command(
         f"podman run -d -ti --restart always --name {pod_name}-celery-beat --pod {pod_name} --volume {APP_DIR}:{workdir}:rw {image_namespace}/{pod_name}:{image_tag} celery -A config beat -l INFO"
@@ -79,6 +87,8 @@ def setup(
     run_command(
         f"podman run -d -ti --restart always --name {pod_name}-celery-worker --pod {pod_name} --volume {APP_DIR}:{workdir}:rw {image_namespace}/{pod_name}:{image_tag} celery -A config worker -l INFO"
     )
+
+    run_command(f"podman exec -ti {pod_name}-django python create_database.py")
 
     if makemigrations:
         run_command(
