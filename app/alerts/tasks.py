@@ -95,7 +95,7 @@ class SingleAlertTask:
             "scraped_until": self.scraped_until,
             "url": self.get_alert_url(),
         }
-        subject = f"{settings.PROJECT_TITLE} - Alerta"
+        subject = f"[{settings.PROJECT_TITLE}] Encontramos novidades com seus alertas!"
         html_message = render_to_string("alerts/email.html", context)
         plain_message = strip_tags(html_message)
 
