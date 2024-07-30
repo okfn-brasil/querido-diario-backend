@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "anymail",
     "accounts.apps.AccountsConfig",
+    "reports.apps.ReportsConfig",
     "alerts.apps.AlertsConfig",
     "querido_diario.apps.QueridoDiarioConfig",
 ]
@@ -195,6 +196,7 @@ EMAIL_FILE_PATH = Path(BASE_DIR, "emails")
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+QUOTATION_TO_EMAIL = config("QUOTATION_TO_EMAIL")
 SERVER_EMAIL = config("SERVER_EMAIL")
 
 ANYMAIL = {
