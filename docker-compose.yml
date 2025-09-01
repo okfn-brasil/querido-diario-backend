@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-queridodiariodb}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+      platforms:
+        - ${PLATFORM:-linux/amd64}
+    image: ${IMAGE_NAMESPACE:-okfn-brasil}/${IMAGE_NAME:-querido-diario-backend}:${IMAGE_TAG:-latest}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - QD_BACKEND_DB_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-queridodiariodb}
+      - QD_BACKEND_SECRET_KEY=${QD_BACKEND_SECRET_KEY:-your-secret-key-here}
+      - QD_BACKEND_DEBUG=${QD_BACKEND_DEBUG:-True}
+      - QD_BACKEND_ALLOWED_HOSTS=${QD_BACKEND_ALLOWED_HOSTS:-*}
+      - QD_BACKEND_ALLOWED_ORIGINS=${QD_BACKEND_ALLOWED_ORIGINS:-http://localhost:4200}
+      - QD_BACKEND_ALLOWED_ORIGIN_REGEXES=${QD_BACKEND_ALLOWED_ORIGIN_REGEXES:-}
+      - QD_BACKEND_CSRF_TRUSTED_ORIGINS=${QD_BACKEND_CSRF_TRUSTED_ORIGINS:-http://localhost:8000}
+      - QD_API_URL=${QD_API_URL:-http://localhost:8080}
+      - QD_API_THEME=${QD_API_THEME:-Default Theme}
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - MAILJET_API_KEY=${MAILJET_API_KEY:-}
+      - MAILJET_SECRET_KEY=${MAILJET_SECRET_KEY:-}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL:-noreply@example.com}
+      - SERVER_EMAIL=${SERVER_EMAIL:-server@example.com}
+      - QUOTATION_TO_EMAIL=${QUOTATION_TO_EMAIL:-quotes@example.com}
+      - STATIC_URL=${STATIC_URL:-/static/}
+      - FRONT_BASE_URL=${FRONT_BASE_URL:-http://localhost:4200}
+      - PROJECT_TITLE=${PROJECT_TITLE:-Querido Diário}
+      - ALERT_HOUR=${ALERT_HOUR:-1}
+      - ALERT_MINUTE=${ALERT_MINUTE:-0}
+      - DJANGO_SETTINGS_MODULE=config.settings
+    volumes:
+      - .:/opt/app:rw
+    working_dir: /opt/app
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    networks:
+      - default
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  default:
+    driver: bridge

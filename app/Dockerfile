@@ -2,7 +2,6 @@ FROM docker.io/python:3.9-bullseye
 
 ARG HOME_DIR=/opt/app
 ARG UNAME=queridodiario
-ARG UNAME=queridodiario
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -18,3 +17,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+RUN chown -R $UNAME:$UNAME $HOME_DIR
+
+USER $UNAME

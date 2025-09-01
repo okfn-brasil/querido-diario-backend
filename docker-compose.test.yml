@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - QD_BACKEND_DB_URL=postgresql://postgres:postgres@postgres:5432/test_db
+      - QD_BACKEND_SECRET_KEY=test-secret-key-for-ci-only-not-secure
+      - QD_BACKEND_DEBUG=True
+      - QD_BACKEND_ALLOWED_HOSTS=*
+      - QD_BACKEND_ALLOWED_ORIGINS=http://localhost:4200
+      - QD_BACKEND_ALLOWED_ORIGIN_REGEXES=
+      - QD_BACKEND_CSRF_TRUSTED_ORIGINS=http://localhost:8000
+      - QD_API_URL=http://localhost:8080
+      - QD_API_THEME=Test%20Theme
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - MAILJET_API_KEY=test-key
+      - MAILJET_SECRET_KEY=test-secret
+      - DEFAULT_FROM_EMAIL=test@example.com
+      - SERVER_EMAIL=test@example.com
+      - QUOTATION_TO_EMAIL=test@example.com
+      - STATIC_URL=/static/
+      - FRONT_BASE_URL=http://localhost:4200
+      - PROJECT_TITLE=Querido Diário Test
+      - ALERT_HOUR=1
+      - ALERT_MINUTE=0
+      - DJANGO_SETTINGS_MODULE=config.settings
+    command: sh -c "python manage.py migrate && python manage.py test"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
