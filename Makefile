@@ -26,13 +26,11 @@ endif
 
 .PHONY: build
 build:
-	docker build --platform $(PLATFORM) --tag $(IMAGE_NAMESPACE)/$(IMAGE_NAME):$(IMAGE_TAG) \
-		-f app/Dockerfile .
+	cd app && docker build --platform $(PLATFORM) --tag $(IMAGE_NAMESPACE)/$(IMAGE_NAME):$(IMAGE_TAG) .
 
 .PHONY: build-multi-arch
 build-multi-arch:
-	docker buildx build --platform linux/amd64,linux/arm64 --tag $(IMAGE_NAMESPACE)/$(IMAGE_NAME):$(IMAGE_TAG) \
-		-f app/Dockerfile .
+	cd app && docker buildx build --platform linux/amd64,linux/arm64 --tag $(IMAGE_NAMESPACE)/$(IMAGE_NAME):$(IMAGE_TAG) .
 
 .PHONY: login
 login:
