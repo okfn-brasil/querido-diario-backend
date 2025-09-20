@@ -5,8 +5,10 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from .health import HealthCheckView
 
 urlpatterns = [
+    path("health/", HealthCheckView.as_view(), name="health_check"),
     path("api/admin/", admin.site.urls),
     path("api/accounts/", include("accounts.urls")),
     path("api/reports/", include("reports.urls")),
