@@ -208,4 +208,46 @@ PROJECT_TITLE = config("PROJECT_TITLE")
 ALERT_HOUR = config("ALERT_HOUR", cast=int, default=1)
 ALERT_MINUTE = config("ALERT_MINUTE", cast=int, default=0)
 
-logging.basicConfig(level=logging.DEBUG)
+# Remove or comment out the old logging.basicConfig()
+# logging.basicConfig(level=logging.DEBUG)
+
+# Configure logging with proper level based on DEBUG setting
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'skip_health_checks': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': lambda record: '/health/' not in record.getMessage(),
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'filters': ['skip_health_checks'],
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG' if DEBUG else 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['console'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'propagate': False,
+        },
+    },
+}
